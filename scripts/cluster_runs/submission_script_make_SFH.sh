@@ -21,7 +21,7 @@
 source activate pro
 slopes = [0.0, 1.0, 1.5, 2.0, 2.5, 3.0]
 breaks = [10.0, 30.0, 100.0, 300.0, 1000.0]
-srun -n 1 python /n/eisenstein_lab/Users/stacchella/halo_model/scripts/run_make_SFH.py \
+srun -n 1 python /n/conroyfs1/stacchella/variability_SFHs/scripts/run_make_SFH.py \
 --idx_key="${SLURM_ARRAY_TASK_ID}" \
 --filename_SFH="SFH_" \
 --sfh_res=0.001 \
