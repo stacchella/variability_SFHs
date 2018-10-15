@@ -13,19 +13,11 @@ sbatch --array=1-XX submission_script_make_SFH.sh, with XX given by number_of_bi
 
 """
 
-
-
-
-args.redshift
-
-
-
 # import modules
 
 import numpy as np
 from DELCgen import *
 import pickle
-from matplotlib import pyplot as plt
 import argparse
 import make_SFH_from_PSD
 
