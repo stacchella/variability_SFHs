@@ -18,7 +18,7 @@ def generate_SFH(a_low, v_bend, aliasTbin, number_steps, amp, a_high):
     generate random walk SFH with slope of the
     power-spectrum density (a_low) and length
     '''
-    return Simulate_TK_Lightcurve(BendingPL, (A, v_bend, a_low, a_high, 0), RedNoiseL=10, aliasTbin=aliasTbin, tbin=1, length=length)
+    return Simulate_TK_Lightcurve(BendingPL, (amp, v_bend, a_low, a_high, 0), RedNoiseL=10, aliasTbin=aliasTbin, tbin=1, length=number_steps)
 
 
 def get_stats_DEL(SFH_array, number_galaxies, only_last=False):
@@ -36,7 +36,7 @@ def get_stats_DEL(SFH_array, number_galaxies, only_last=False):
 
 
 def create_family_SFHs(number_galaxies, slope, v_bend, scatter_MS, aliasTbin, number_steps, amp, a_high):
-    array_of_DELs = np.array([generate_SFH(slope, v_bend, aliasTbin, number_steps, amp, a_high) for ii in range(size)])
+    array_of_DELs = np.array([generate_SFH(slope, v_bend, aliasTbin, number_steps, amp, a_high) for ii in range(number_galaxies)])
     mean, std, std_mean_individual, std_std_individual = get_stats_DEL(array_of_DELs, number_galaxies, only_last=True)
     # get normalization so that scatter is consistent with MS
     normalization = scatter_MS/std

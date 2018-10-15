@@ -17,7 +17,8 @@ sbatch --array=1-XX submission_script_make_SFH.sh, with XX given by number_of_bi
 
 import numpy as np
 from DELCgen import *
-import pickle
+import os
+import h5py
 import argparse
 import make_SFH_from_PSD
 
@@ -41,10 +42,10 @@ parser.add_argument("--filename_SFH", type=str, help="filename of SFH file")
 parser.add_argument("--sfh_res", type=float, help="time resolution of SFH in Gyr")
 parser.add_argument("--redshift_start", type=float, help="start of SFH in redshift space")
 parser.add_argument("--redshift_end", type=float, help="end of SFH in redshift space")
-parser.add_argument("--number_of_galaxies", type=int, help="Number of SFHs/galaxies")
+parser.add_argument("--number_galaxies", type=int, help="Number of SFHs/galaxies")
 parser.add_argument("--scatter_MS_0", type=float, help="scatter of MS (on shortest timescale)")
-parser.add_argument("--list_of_slopes", type=list, help="slope on the short time scales")
-parser.add_argument("--list_of_breaks", type=list, help="timescale of break")
+parser.add_argument("--list_of_slopes", nargs='+', type=float, help="slope on the short time scales")
+parser.add_argument("--list_of_breaks", nargs='+', type=float, help="timescale of break")
 parser.add_argument("--aliasTbin", type=float, help="oversampling of time series (resolution)")
 args = parser.parse_args()
 
@@ -63,6 +64,7 @@ amp = args.scatter_MS_0
 
 # slope on the short time scales
 list_of_slopes = np.array(args.list_of_slopes)
+print list_of_slopes
 list_of_slopes_str = list_of_slopes.astype('str')
 
 #slope on the long time scales
@@ -70,6 +72,7 @@ slope_high = 0.0
 
 #frequency of the break
 list_of_break_timescales = np.array(args.list_of_breaks)
+print list_of_break_timescales
 list_of_breaks = 1.0/(list_of_break_timescales*2.0*np.pi)
 list_of_breaks_str = list_of_break_timescales.astype('str')
 
@@ -90,18 +93,22 @@ def translate_key(idx):
 
 # generate SFH from power-spectrum density
 ii_slope, jj_break = translate_key(args.idx_key)
-array_of_SFH = make_SFH_from_PSD.create_family_SFHs(number_galaxies, list_of_slopes[ii_slope], list_of_breaks[jj_break], args.scatter_MS_0, args.aliasTbin, number_steps, amp, slope_high)
+array_of_SFH = make_SFH_from_PSD.create_family_SFHs(args.number_galaxies, list_of_slopes[ii_slope], list_of_breaks[jj_break], args.scatter_MS_0, args.aliasTbin, number_steps, amp, slope_high)
 
-# make dictionary
-SFH_dict = {}
-SFH_dict['time'] = time_SFH
-SFH_dict['SFR_array'] = array_of_SFH
 
 # save SFH dictionary (contains SFH)
-file_name = path_SFH_cat + args.filename_SFH + 'alpha_' + list_of_slopes_str[idx_slope] + '_tau_' + list_of_breaks_str[idx_break] + '.hdf5'
-with open(file_name, 'wb') as f:
-    pickle.dump(SFH_dict, f, pickle.HIGHEST_PROTOCOL)
+file_name = path_SFH_cat + args.filename_SFH + 'alpha_' + list_of_slopes_str[ii_slope] + '_tau_' + list_of_breaks_str[jj_break] + '.hdf5'
 
+try:
+    os.remove(file_name)
+except OSError:
+    pass
 
+f = h5py.File(file_name, 'w')
+# add SFH
+grp_SFH = f.create_group("SFH")
+grp_SFH.create_dataset('SFH_time', data=time_SFH)
+grp_SFH.create_dataset('SFH_SFR', data=array_of_SFH)
 
+f.close()
 
