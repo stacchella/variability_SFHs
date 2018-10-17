@@ -99,12 +99,12 @@ list_of_breaks_str = list_of_break_timescales.astype('str')
 
 # define function for translating key
 
-def translate_key(idx-1):
+def translate_key(idx):
     '''
     Translate key to indices.
     '''
-    idx_slope = idx / len(list_of_breaks)
-    idx_break = idx % len(list_of_breaks)
+    idx_slope = (idx-1) / len(list_of_breaks)
+    idx_break = (idx-1) % len(list_of_breaks)
     return(idx_slope, idx_break)
 
 
