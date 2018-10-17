@@ -124,14 +124,32 @@ filters = ['i1500', 'i2800', 'u', 'v', '2mass_j', 'wise_w3']
 idx_Halpha = (np.abs(sp.emline_wavelengths-6564.61)).argmin()
 
 
-array_of_luminosities = []
+array_i1500 = []
+array_i2800 = []
+array_u = []
+array_v = []
+array_2mass_j = []
+array_wise_w3 = []
+array_UVIR = []
+array_UVIR2 = []
+array_Ha = []
+
 
 for ii in range(args.number_galaxies):
     SFR = 10**array_of_SFH[ii]  # assume MS is 1 Msun/yr
+    array_of_luminosities = compute_luminosities.get_magnitude_SFH(sp, time_SFH, SFR, time_lum, filters, idx_Halpha)
     if (ii == 0):
-        array_of_luminosities = compute_luminosities.get_magnitude_SFH(sp, time_SFH, SFR, time_lum, filters, idx_Halpha)
+        array_i1500, array_i2800, array_u, array_v, array_2mass_j, array_wise_w3, array_UVIR, array_UVIR2, array_Ha = array_of_luminosities[0], array_of_luminosities[1], array_of_luminosities[2], array_of_luminosities[3], array_of_luminosities[4], array_of_luminosities[5], array_of_luminosities[6], array_of_luminosities[7], array_of_luminosities[8]
     else:
-        array_of_luminosities = np.vstack([array_of_luminosities, compute_luminosities.get_magnitude_SFH(sp, time_SFH, SFR, time_lum, filters, idx_Halpha)])
+        array_i1500 = np.vstack([array_i1500, array_of_luminosities[0]])
+        array_i2800 = np.vstack([array_i2800, array_of_luminosities[1]])
+        array_u = np.vstack([array_u, array_of_luminosities[2]])
+        array_v = np.vstack([array_v, array_of_luminosities[3]])
+        array_2mass_j = np.vstack([array_2mass_j, array_of_luminosities[4]])
+        array_wise_w3 = np.vstack([array_wise_w3, array_of_luminosities[5]])
+        array_UVIR = np.vstack([array_UVIR, array_of_luminosities[6]])
+        array_UVIR2 = np.vstack([array_UVIR2, array_of_luminosities[7]])
+        array_Ha = np.vstack([array_Ha, array_of_luminosities[8]])
 
 
 # save SFH dictionary (contains SFH)
@@ -142,6 +160,7 @@ try:
 except OSError:
     pass
 
+
 f = h5py.File(file_name, 'w')
 # add SFH
 grp_SFH = f.create_group("SFH")
@@ -150,7 +169,14 @@ grp_SFH.create_dataset('SFH_time', data=time_SFH)
 grp_SFH.create_dataset('SFH_SFR', data=array_of_SFH)
 grp_lum = f.create_group("lum")
 grp_lum.create_dataset('lum_time', data=time_lum)
-grp_lum.create_dataset('lum_luminosities', data=array_of_luminosities)
+grp_lum.create_dataset('lum_i1500', data=array_i1500)
+grp_lum.create_dataset('lum_i2800', data=array_i2800)
+grp_lum.create_dataset('lum_u', data=array_u)
+grp_lum.create_dataset('lum_v', data=array_v)
+grp_lum.create_dataset('lum_2mass_j', data=array_2mass_j)
+grp_lum.create_dataset('lum_wise_w3', data=array_wise_w3)
+grp_lum.create_dataset('lum_UVIR', data=array_UVIR)
+grp_lum.create_dataset('lum_UVIR2', data=array_UVIR2)
+grp_lum.create_dataset('lum_Ha', data=array_Ha)
 
 f.close()
-
