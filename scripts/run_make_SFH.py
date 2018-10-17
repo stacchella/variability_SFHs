@@ -99,7 +99,7 @@ list_of_breaks_str = list_of_break_timescales.astype('str')
 
 # define function for translating key
 
-def translate_key(idx):
+def translate_key(idx-1):
     '''
     Translate key to indices.
     '''
@@ -126,7 +126,7 @@ idx_Halpha = (np.abs(sp.emline_wavelengths-6564.61)).argmin()
 
 array_of_luminosities = []
 
-for ii in range(number_galaxies):
+for ii in range(args.number_galaxies):
     SFR = 10**array_of_SFH[ii]  # assume MS is 1 Msun/yr
     if (ii == 0):
         array_of_luminosities = compute_luminosities.get_magnitude_SFH(sp, time_SFH, SFR, time_lum, filters, idx_Halpha)
