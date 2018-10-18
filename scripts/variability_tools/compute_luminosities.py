@@ -96,11 +96,10 @@ def return_luv(lam, spec, z=None):
 
 def get_magnitude_SFH(sp_in, tage_list, filters, idx_Halpha):
     for tage in tage_list:
-        L_list = get_magnitude_SFH_single(sp_in, tage, filters, idx_Halpha)
         if (tage == tage_list[0]):
-            L_mat = L_list
+            L_mat = get_magnitude_SFH_single(sp_in, tage, filters, idx_Halpha)
         else:
-            L_mat = np.vstack([L_mat, L_list])
+            L_mat = np.vstack([L_mat, get_magnitude_SFH_single(sp_in, tage, filters, idx_Halpha)])
     return(L_mat.T)
 
 
@@ -108,9 +107,12 @@ def get_magnitude_SFH_single(sp_in, tage_in, filters, idx_Halpha):
     # get luminosities
     mag_list = sp_in.get_mags(tage=tage_in, bands=filters)
     L_list = 4*np.pi*(3.086e+19)**2*np.power(10, -0.4*(mag_list+48.6))
+    print L_list
     wave, spec = sp_in.get_spectrum(tage=tage_in)
-    L_tot = return_lir(wave, spec, z=None) + 2.2*return_luv(wave, spec, z=None)  # from total UV
-    L_tot2 = return_lir(wave, spec, z=None) + 2.2*1.5*L_list[1]*3e8/(2800*10**-10)  # from 2800
+    LIR = return_lir(wave, spec, z=None)
+    print LIR
+    L_tot = LIR + 2.2*return_luv(wave, spec, z=None)  # from total UV
+    L_tot2 = LIR + 2.2*1.5*L_list[1]*3e8/(2800*10**-10)  # from 2800
     L_list = np.append(np.append(np.append(L_list, L_tot), L_tot2), 3.839*10**33*sp_in.emline_luminosity[idx_Halpha])
     return(L_list)
 
