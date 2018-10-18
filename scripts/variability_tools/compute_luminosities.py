@@ -115,6 +115,8 @@ def get_magnitude_SFH_single(sp_in, time, SFR, tage_in, filters, idx_Halpha):
     L_tot = return_lir(wave, spec, z=None) + 2.2*return_luv(wave, spec, z=None)  # from total UV
     L_tot2 = return_lir(wave, spec, z=None) + 2.2*1.5*L_list[1]*3e8/(2800*10**-10)  # from 2800
     L_list = np.append(np.append(np.append(L_list, L_tot), L_tot2), 3.839*10**33*sp_in.emline_luminosity[idx_Halpha])
+    print L_list
+    print L_list.shape
     return(L_list.T)
 
 
