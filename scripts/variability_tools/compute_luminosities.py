@@ -96,14 +96,11 @@ def return_luv(lam, spec, z=None):
 
 def get_magnitude_SFH(sp_in, tage_list, filters, idx_Halpha):
     for tage in tage_list:
-        print tage
         L_list = get_magnitude_SFH_single(sp_in, tage, filters, idx_Halpha)
         if (tage == tage_list[0]):
             L_mat = L_list
         else:
             L_mat = np.vstack([L_mat, L_list])
-    print L_mat
-    print L_mat.shape
     return(L_mat.T)
 
 
