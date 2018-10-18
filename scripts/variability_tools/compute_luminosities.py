@@ -12,7 +12,6 @@ Created on October 17, 2018
 import numpy as np
 from scipy.interpolate import interp1d
 from scipy.integrate import simps
-import fsps
 
 from astropy.cosmology import FlatLambdaCDM
 cosmo = FlatLambdaCDM(H0=70, Om0=0.3)
@@ -105,7 +104,7 @@ def get_magnitude_SFH(sp_in, tage_list, filters, idx_Halpha):
             L_mat = np.vstack([L_mat, L_list])
     print L_mat
     print L_mat.shape
-    return(L_mat)
+    return(L_mat.T)
 
 
 def get_magnitude_SFH_single(sp_in, tage_in, filters, idx_Halpha):
