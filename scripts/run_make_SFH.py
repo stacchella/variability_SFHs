@@ -138,8 +138,7 @@ array_Ha = []
 for ii in range(args.number_galaxies):
     SFR = 10**array_of_SFH[ii]  # assume MS is 1 Msun/yr
     # set SFH parameters
-    sp.set_tabular_sfh(time_SFH, SFR)
-    array_of_luminosities = compute_luminosities.get_magnitude_SFH(sp, time_lum, filters, idx_Halpha)
+    array_of_luminosities = compute_luminosities.get_magnitude_SFH(sp, time_SFH, SFR, time_lum, filters, idx_Halpha)
     if (ii == 0):
         array_i1500, array_i2800, array_u, array_v, array_2mass_j, array_wise_w3, array_UVIR, array_UVIR2, array_Ha = array_of_luminosities[0], array_of_luminosities[1], array_of_luminosities[2], array_of_luminosities[3], array_of_luminosities[4], array_of_luminosities[5], array_of_luminosities[6], array_of_luminosities[7], array_of_luminosities[8]
     else:
