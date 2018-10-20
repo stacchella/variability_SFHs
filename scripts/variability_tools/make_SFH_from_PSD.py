@@ -25,6 +25,7 @@ def get_stats_DEL(SFH_array, number_galaxies, only_last=False):
     flux_all = []
     std_individual_list = []
     for ii in range(number_galaxies):
+        print 'progress (%): ', np.round(100.0*ii/number_galaxies, 1)
         if only_last:
             std_individual_list.append(np.std(SFH_array[ii].flux[-1]))
             flux_all.append(SFH_array[ii].flux[-1])
