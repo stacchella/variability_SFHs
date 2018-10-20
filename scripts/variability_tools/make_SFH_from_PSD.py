@@ -36,6 +36,7 @@ def get_stats_DEL(SFH_array, number_galaxies, only_last=False):
 
 
 def create_family_SFHs(number_galaxies, slope, v_bend, scatter_MS, aliasTbin, number_steps, amp, a_high):
+    print 'making SFHs...'
     array_of_DELs = np.array([generate_SFH(slope, v_bend, aliasTbin, number_steps, amp, a_high) for ii in range(number_galaxies)])
     mean, std, std_mean_individual, std_std_individual = get_stats_DEL(array_of_DELs, number_galaxies, only_last=True)
     # get normalization so that scatter is consistent with MS
