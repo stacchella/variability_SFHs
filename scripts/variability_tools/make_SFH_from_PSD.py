@@ -43,14 +43,15 @@ def create_family_SFHs(number_galaxies, slope, v_bend, scatter_MS, aliasTbin, nu
     normalization = scatter_MS/std
     print '#####################'
     print 'slope = ', slope
+    print 'slope = ', v_bend
     print 'mean(global) = ', np.round(mean, 3)
     print 'std(global) = ', np.round(std, 3)
     print 'std(individual) = ', np.round(std_mean_individual, 3), ' +- ', np.round(std_std_individual, 3)
     for ii in range(number_galaxies):
         if (ii == 0):
-            array_of_SFH = normalization*array_of_DELs[ii].flux
+            array_of_SFH = normalization*(array_of_DELs[ii].flux-mean)
         else:
-            array_of_SFH = np.vstack([array_of_SFH, normalization*array_of_DELs[ii].flux])
+            array_of_SFH = np.vstack([array_of_SFH, normalization*(array_of_DELs[ii].flux-mean)])
     return(array_of_SFH)
 
 

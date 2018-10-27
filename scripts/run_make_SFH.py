@@ -110,6 +110,8 @@ def translate_key(idx):
 
 # generate SFH from power-spectrum density
 ii_slope, jj_break = translate_key(args.idx_key)
+print 'slope = ', list_of_slopes[ii_slope]
+print 'break = ', list_of_breaks[jj_break]
 array_of_SFH = make_SFH_from_PSD.create_family_SFHs(args.number_galaxies, list_of_slopes[ii_slope], list_of_breaks[jj_break], args.scatter_MS_0, args.aliasTbin, number_steps, amp, slope_high)
 
 
