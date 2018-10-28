@@ -90,7 +90,7 @@ slope_high = 0.0
 #frequency of the break
 list_of_break_timescales = np.array(args.list_of_breaks)
 print list_of_break_timescales
-list_of_breaks = 1.0/(list_of_break_timescales*2.0*np.pi)
+list_of_breaks = 1.0/list_of_break_timescales
 list_of_breaks_str = list_of_break_timescales.astype('str')
 
 # intercept/offset: adds constant to the final output

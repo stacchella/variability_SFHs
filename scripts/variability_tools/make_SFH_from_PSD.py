@@ -43,7 +43,7 @@ def create_family_SFHs(number_galaxies, slope, v_bend, scatter_MS, aliasTbin, nu
     normalization = scatter_MS/std
     print '#####################'
     print 'slope = ', slope
-    print 'slope = ', v_bend
+    print 'v_bend = ', v_bend
     print 'mean(global) = ', np.round(mean, 3)
     print 'std(global) = ', np.round(std, 3)
     print 'std(individual) = ', np.round(std_mean_individual, 3), ' +- ', np.round(std_std_individual, 3)
