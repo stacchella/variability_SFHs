@@ -138,7 +138,7 @@ array_Ha = []
 
 
 for ii in range(args.number_galaxies):
-    print 'progress (%) :  ', np.round(100.0*ii/args.number_galaxies, 1)
+    print 'progress (%) :  ', np.round(100.0*(ii+1)/args.number_galaxies, 1)
     SFR = 10**array_of_SFH[ii]  # assume MS is 1 Msun/yr
     # set SFH parameters
     array_of_luminosities = compute_luminosities.get_magnitude_SFH(sp, time_SFH, SFR, time_lum, filters, idx_Halpha)
