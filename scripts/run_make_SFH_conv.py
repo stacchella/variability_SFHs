@@ -21,6 +21,7 @@ import os
 import h5py
 import argparse
 import make_SFH_from_PSD
+from astropy.table import Table
 
 
 from astropy.cosmology import FlatLambdaCDM
