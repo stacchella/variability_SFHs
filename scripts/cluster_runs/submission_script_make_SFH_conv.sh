@@ -19,7 +19,7 @@
 #SBATCH --mail-type=END
 #SBATCH --mail-user=sandro.tacchella@cfa.harvard.edu
 source activate pro
-srun -n 1 python /n/conroyfs1/stacchella/variability_SFHs/scripts/run_make_SFH.py \
+srun -n 1 python /n/conroyfs1/stacchella/variability_SFHs/scripts/run_make_SFH_conv.py \
 --idx_key="${SLURM_ARRAY_TASK_ID}" \
 --filename_SFH="SFH_" \
 --sfh_res=0.001 \
