@@ -17,7 +17,6 @@ from astropy.cosmology import FlatLambdaCDM
 cosmo = FlatLambdaCDM(H0=70, Om0=0.3)
 print cosmo
 
-
 def integrate_mag(spec_lam, spectra, filter, z=None):
     '''
     borrowed from calc_ml
@@ -114,5 +113,4 @@ def get_magnitude_SFH_single(sp_in, time_SFH, SFR_SFH, tage_in, filters, idx_Hal
     L_tot2 = LIR + 2.2*1.5*L_list[1]*3e8/(2800*10**-10)  # from 2800
     L_list = np.append(np.append(np.append(L_list, L_tot), L_tot2), 3.839*10**33*sp_in.emline_luminosity[idx_Halpha])
     return(L_list)
-
 

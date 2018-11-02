@@ -1,0 +1,38 @@
+#!/bin/bash
+### Name of the job
+### Requested number of cores
+#SBATCH -n 1
+### Requested number of nodes
+#SBATCH -N 1
+### Requested computing time in minutes
+#SBATCH -t 10080
+### Partition or queue name
+#SBATCH -p conroy,itc_cluster,hernquist
+### memory per cpu, in MB
+#SBATCH --mem-per-cpu=4000
+### Job name
+#SBATCH -J 'VARSFH_standard'
+### output and error logs
+#SBATCH -o VARSFH_standard_%a.out
+#SBATCH -e VARSFH_standard_%a.err
+### mail
+#SBATCH --mail-type=END
+#SBATCH --mail-user=sandro.tacchella@cfa.harvard.edu
+source activate pro
+srun -n 1 python /n/conroyfs1/stacchella/variability_SFHs/scripts/run_make_SFH.py \
+--idx_key="${SLURM_ARRAY_TASK_ID}" \
+--filename_SFH="SFH_" \
+--sfh_res=0.001 \
+--redshift_start=0.3 \
+--redshift_end=0.0 \
+--number_galaxies=1000 \
+--scatter_MS_0=1.0 \
+--list_of_slopes 0.0 0.5 1.0 1.2 1.4 1.5 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.8 3.0 3.5 4.0 \
+--list_of_breaks 10.0 30.0 50.0 70.0 80.0 90.0 100.0 110.0 120.0 140.0 160.0 200.0 250.0 300.0 400.0 500.0 600.0 700.0 800.0 1000.0 \
+--aliasTbin=0.1 \
+
+
+
+
+
+
