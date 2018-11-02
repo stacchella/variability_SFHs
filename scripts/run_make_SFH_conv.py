@@ -111,7 +111,27 @@ array_of_SFH = make_SFH_from_PSD.create_family_SFHs(args.number_galaxies, list_o
 
 # compute SFRs weighted by luminosity evolution
 
-'Ha', 'FUV', 'NUV', 'u', 'V', 'J', 'W3', 'UV+IR'
+# define high res time bins for convolution
+
+N = 10  # sub-resolution (10 times)
+time_hr = np.arange(0.0, np.max(time_SFH)+args.sfh_res/N, args.sfh_res/N)
+
+
+# make high res grid for response function
+
+response_function_hr_dict = {}
+
+for ii_key in response_function.keys()[1:]:
+    response_function_hr_dict[ii_key] = response_function_hr = np.interp(time_hr, response_function['time'], response_function[ii_key])
+
+
+def convolve(SFR_hr, indicator):
+    SFR_conv = np.convolve(SFR_hr, response_function_hr_dict[indicator], mode='full')
+    SFR_conv = np.convolve(SFR_conv, np.ones((N,))/N, mode='valid')[:len(time_SFH)]
+    return(SFR_conv)
+
+
+# compute array
 
 array_i1500 = []
 array_i2800 = []
@@ -126,25 +146,26 @@ array_Ha = []
 for ii in range(args.number_galaxies):
     print 'progress (%) :  ', np.round(100.0*(ii+1)/args.number_galaxies, 1)
     SFR = 10**array_of_SFH[ii]  # assume MS is 1 Msun/yr
+    SFR_hr = np.interp(time_hr, time_SFH, SFR)
     # set SFH parameters
     if (ii == 0):
-        array_i1500 = np.log10(np.convolve(SFR, response_function['FUV'], mode='full'))[:len(SFR)]
-        array_i2800 = np.log10(np.convolve(SFR, response_function['NUV'], mode='full'))[:len(SFR)]
-        array_u = np.log10(np.convolve(SFR, response_function['u'], mode='full'))[:len(SFR)]
-        array_v = np.log10(np.convolve(SFR, response_function['V'], mode='full'))[:len(SFR)]
-        array_2mass_j = np.log10(np.convolve(SFR, response_function['J'], mode='full'))[:len(SFR)]
-        array_wise_w3 = np.log10(np.convolve(SFR, response_function['W3'], mode='full'))[:len(SFR)]
-        array_UVIR = np.log10(np.convolve(SFR, response_function['UV+IR'], mode='full'))[:len(SFR)]
-        array_Ha = np.log10(np.convolve(SFR, response_function['Ha'], mode='full'))[:len(SFR)]
+        array_i1500 = np.log10(convolve(SFR_hr, 'FUV'))
+        array_i2800 = np.log10(convolve(SFR_hr, 'NUV'))
+        array_u = np.log10(convolve(SFR_hr, 'u'))
+        array_v = np.log10(convolve(SFR_hr, 'V'))
+        array_2mass_j = np.log10(convolve(SFR_hr, 'J'))
+        array_wise_w3 = np.log10(convolve(SFR_hr, 'W3'))
+        array_UVIR = np.log10(convolve(SFR_hr, 'UV+IR'))
+        array_Ha = np.log10(convolve(SFR_hr, 'Ha'))
     else:
-        array_i1500 = np.vstack([array_i1500, np.log10(np.convolve(SFR, response_function['FUV'], mode='full'))[:len(SFR)]])
-        array_i2800 = np.vstack([array_i2800, np.log10(np.convolve(SFR, response_function['NUV'], mode='full'))[:len(SFR)]])
-        array_u = np.vstack([array_u, np.log10(np.convolve(SFR, response_function['u'], mode='full'))[:len(SFR)]])
-        array_v = np.vstack([array_v, np.log10(np.convolve(SFR, response_function['V'], mode='full'))[:len(SFR)]])
-        array_2mass_j = np.vstack([array_2mass_j, np.log10(np.convolve(SFR, response_function['J'], mode='full'))[:len(SFR)]])
-        array_wise_w3 = np.vstack([array_wise_w3, np.log10(np.convolve(SFR, response_function['W3'], mode='full'))[:len(SFR)]])
-        array_UVIR = np.vstack([array_UVIR, np.log10(np.convolve(SFR, response_function['UV+IR'], mode='full'))[:len(SFR)]])
-        array_Ha = np.vstack([array_Ha, np.log10(np.convolve(SFR, response_function['Ha'], mode='full'))[:len(SFR)]])
+        array_i1500 = np.vstack([array_i1500, np.log10(convolve(SFR_hr, 'FUV'))])
+        array_i2800 = np.vstack([array_i2800, np.log10(convolve(SFR_hr, 'NUV'))])
+        array_u = np.vstack([array_u, np.log10(convolve(SFR_hr, 'u'))])
+        array_v = np.vstack([array_v, np.log10(convolve(SFR_hr, 'V'))])
+        array_2mass_j = np.vstack([array_2mass_j, np.log10(convolve(SFR_hr, 'J'))])
+        array_wise_w3 = np.vstack([array_wise_w3, np.log10(convolve(SFR_hr, 'W3'))])
+        array_UVIR = np.vstack([array_UVIR, np.log10(convolve(SFR_hr, 'UV+IR'))])
+        array_Ha = np.vstack([array_Ha, np.log10(convolve(SFR_hr, 'Ha'))])
 
 
 # save SFH dictionary (contains SFH)
