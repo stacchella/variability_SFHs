@@ -138,14 +138,13 @@ for ii in range(args.number_galaxies):
         array_Ha = np.log10(np.convolve(SFR, response_function['Ha'], mode='full'))[:len(SFR)]
     else:
         array_i1500 = np.vstack([array_i1500, np.log10(np.convolve(SFR, response_function['FUV'], mode='full'))[:len(SFR)]])
-        array_i2800 = np.vstack([array_i2800, np.log10(np.convolve(SFR, response_function['FUV'], mode='full'))[:len(SFR)]])
-        array_u = np.vstack([array_u, np.log10(np.convolve(SFR, response_function['FUV'], mode='full'))[:len(SFR)]])
-        array_v = np.vstack([array_v, np.log10(np.convolve(SFR, response_function['FUV'], mode='full'))[:len(SFR)]])
-        array_2mass_j = np.vstack([array_2mass_j, np.log10(np.convolve(SFR, response_function['FUV'], mode='full'))[:len(SFR)]])
-        array_wise_w3 = np.vstack([array_wise_w3, np.log10(np.convolve(SFR, response_function['FUV'], mode='full'))[:len(SFR)]])
-        array_UVIR = np.vstack([array_UVIR, np.log10(np.convolve(SFR, response_function['FUV'], mode='full'))[:len(SFR)]])
-        array_UVIR2 = np.vstack([array_UVIR2, np.log10(np.convolve(SFR, response_function['FUV'], mode='full'))[:len(SFR)]])
-        array_Ha = np.vstack([array_Ha, np.log10(np.convolve(SFR, response_function['FUV'], mode='full'))[:len(SFR)]])
+        array_i2800 = np.vstack([array_i2800, np.log10(np.convolve(SFR, response_function['NUV'], mode='full'))[:len(SFR)]])
+        array_u = np.vstack([array_u, np.log10(np.convolve(SFR, response_function['u'], mode='full'))[:len(SFR)]])
+        array_v = np.vstack([array_v, np.log10(np.convolve(SFR, response_function['V'], mode='full'))[:len(SFR)]])
+        array_2mass_j = np.vstack([array_2mass_j, np.log10(np.convolve(SFR, response_function['J'], mode='full'))[:len(SFR)]])
+        array_wise_w3 = np.vstack([array_wise_w3, np.log10(np.convolve(SFR, response_function['W3'], mode='full'))[:len(SFR)]])
+        array_UVIR = np.vstack([array_UVIR, np.log10(np.convolve(SFR, response_function['UV+IR'], mode='full'))[:len(SFR)]])
+        array_Ha = np.vstack([array_Ha, np.log10(np.convolve(SFR, response_function['Ha'], mode='full'))[:len(SFR)]])
 
 
 # save SFH dictionary (contains SFH)
