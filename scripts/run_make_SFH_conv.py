@@ -38,7 +38,7 @@ path_SFH_cat = path_main + 'catalogs/SFH/'
 # read in response function file for convolution
 
 path_response_file = path_main + 'scripts/variability_tools/response_function.dat'
-response_function = Table.read('/Users/sandrotacchella/ASTRO/SFH_Variability/Figs/response_function.dat', format='ascii')
+response_function = Table.read(path_response_file, format='ascii')
 
 
 # read in command line arguments
