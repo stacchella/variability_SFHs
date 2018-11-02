@@ -11,17 +11,17 @@
 ### memory per cpu, in MB
 #SBATCH --mem-per-cpu=4000
 ### Job name
-#SBATCH -J 'VARSFH_standard'
+#SBATCH -J 'VARSFHc_standard'
 ### output and error logs
-#SBATCH -o VARSFH_standard_%a.out
-#SBATCH -e VARSFH_standard_%a.err
+#SBATCH -o VARSFHc_standard_%a.out
+#SBATCH -e VARSFHc_standard_%a.err
 ### mail
 #SBATCH --mail-type=END
 #SBATCH --mail-user=sandro.tacchella@cfa.harvard.edu
 source activate pro
 srun -n 1 python /n/conroyfs1/stacchella/variability_SFHs/scripts/run_make_SFH_conv.py \
 --idx_key="${SLURM_ARRAY_TASK_ID}" \
---filename_SFH="SFH_" \
+--filename_SFH="SFHc_" \
 --sfh_res=0.001 \
 --redshift_start=0.3 \
 --redshift_end=0.0 \
