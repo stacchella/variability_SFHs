@@ -23,7 +23,7 @@ srun -n 1 python /n/conroyfs1/stacchella/variability_SFHs/scripts/run_make_SFH_c
 --idx_key="${SLURM_ARRAY_TASK_ID}" \
 --filename_SFH="SFHc_" \
 --sfh_res=0.001 \
---redshift_start=0.3 \
+--redshift_start=0.2 \
 --redshift_end=0.0 \
 --number_galaxies=1000 \
 --scatter_MS_0=1.0 \
