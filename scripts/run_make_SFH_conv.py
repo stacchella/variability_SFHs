@@ -122,12 +122,13 @@ time_hr = np.arange(0.0, np.max(time_SFH)+args.sfh_res/N, args.sfh_res/N)
 response_function_hr_dict = {}
 
 for ii_key in response_function.keys()[1:]:
-    response_function_hr_dict[ii_key] = response_function_hr = np.interp(time_hr, response_function['time'], response_function[ii_key])
+    response_function_hr_dict[ii_key] = np.interp(time_hr, response_function['time'], response_function[ii_key])
+    response_function_hr_dict[ii_key] = response_function_hr_dict[ii_key]/np.sum(response_function_hr_dict[ii_key])
 
 
 def convolve(SFR_hr, indicator):
     SFR_conv = np.convolve(SFR_hr, response_function_hr_dict[indicator], mode='full')
-    SFR_conv = np.convolve(SFR_conv, np.ones((N,))/N, mode='valid')[:len(time_SFH)]
+    SFR_conv = np.convolve(SFR_conv, np.ones((N,))/N, mode='valid')[::N][:len(time_SFH)]
     return(SFR_conv)
 
 
