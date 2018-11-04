@@ -54,6 +54,7 @@ parser.add_argument("--scatter_MS_0", type=float, help="scatter of MS (on shorte
 parser.add_argument("--list_of_slopes", nargs='+', type=float, help="slope on the short time scales")
 parser.add_argument("--list_of_breaks", nargs='+', type=float, help="timescale of break")
 parser.add_argument("--aliasTbin", type=float, help="oversampling of time series (resolution)")
+parser.add_argument("--sub_res_time", type=float, help="oversampling of time in convolution")
 
 args = parser.parse_args()
 
@@ -113,18 +114,21 @@ array_of_SFH = make_SFH_from_PSD.create_family_SFHs(args.number_galaxies, list_o
 
 # define high res time bins for convolution
 
-N = 10  # sub-resolution (10 times)
+N = args.sub_res_time  # sub-resolution (10 times)
 time_hr = np.arange(0.0, np.max(time_SFH)+args.sfh_res/N, args.sfh_res/N)
 
 
-# make high res grid for response function
+# make high res grid for response function, make it efficient by cutting at 99%
 
 response_function_hr_dict = {}
 
 for ii_key in response_function.keys()[1:]:
     response_function_hr_dict[ii_key] = np.interp(time_hr, response_function['time'], response_function[ii_key])
     response_function_hr_dict[ii_key] = response_function_hr_dict[ii_key]/np.sum(response_function_hr_dict[ii_key])
+    response_function_hr_dict[ii_key] = response_function_hr_dict[ii_key][:len(response_function_hr_dict[ii_key][np.cumsum(response_function_hr_dict[ii_key]) < 0.99])]
 
+
+# define convlution function
 
 def convolve(SFR_hr, indicator):
     SFR_conv = np.convolve(SFR_hr, response_function_hr_dict[indicator], mode='full')
