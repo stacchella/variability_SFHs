@@ -1,2 +1,4 @@
 # variability_SFHs
-Here are the scripts for the cluster environment.
+
+This repository includes the notebooks to make the figures as well as the scripts for generating star-formation histories from power spectral densities (implemented for the odyssey cluster environment).
+
