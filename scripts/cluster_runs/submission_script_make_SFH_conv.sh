@@ -21,7 +21,7 @@
 source activate pro
 srun -n 1 python /n/conroyfs1/stacchella/variability_SFHs/scripts/run_make_SFH_conv.py \
 --idx_key="${SLURM_ARRAY_TASK_ID}" \
---filename_SFH="SFHc_" \
+--filename_SFH="SFH_" \
 --sfh_res=0.001 \
 --redshift_start=0.4 \
 --redshift_end=0.0 \
