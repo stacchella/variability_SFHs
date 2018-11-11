@@ -11,10 +11,10 @@
 ### memory per cpu, in MB
 #SBATCH --mem-per-cpu=4000
 ### Job name
-#SBATCH -J 'VARSFHc_standard'
+#SBATCH -J 'VARSFH_standard'
 ### output and error logs
-#SBATCH -o VARSFHc_standard_%a.out
-#SBATCH -e VARSFHc_standard_%a.err
+#SBATCH -o VARSFH_standard_%a.out
+#SBATCH -e VARSFH_standard_%a.err
 ### mail
 #SBATCH --mail-type=END
 #SBATCH --mail-user=sandro.tacchella@cfa.harvard.edu
