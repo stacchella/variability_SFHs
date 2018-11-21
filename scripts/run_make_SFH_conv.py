@@ -141,6 +141,7 @@ def convolve(SFR_hr, indicator):
 array_i1500 = []
 array_i2800 = []
 array_u = []
+array_g = []
 array_wise_w3 = []
 array_UVIR = []
 array_Ha = []
@@ -154,14 +155,16 @@ for ii in range(args.number_galaxies):
     if (ii == 0):
         array_i1500 = np.log10(convolve(SFR_hr, 'FUV'))
         array_i2800 = np.log10(convolve(SFR_hr, 'NUV'))
-        array_u = np.log10(convolve(SFR_hr, 'u'))
+        array_u = np.log10(convolve(SFR_hr, 'sdss_u'))
+        array_g = np.log10(convolve(SFR_hr, 'sdss_g'))
         array_wise_w3 = np.log10(convolve(SFR_hr, 'W3'))
         array_UVIR = np.log10(convolve(SFR_hr, 'UV+IR'))
         array_Ha = np.log10(convolve(SFR_hr, 'Ha'))
     else:
         array_i1500 = np.vstack([array_i1500, np.log10(convolve(SFR_hr, 'FUV'))])
         array_i2800 = np.vstack([array_i2800, np.log10(convolve(SFR_hr, 'NUV'))])
-        array_u = np.vstack([array_u, np.log10(convolve(SFR_hr, 'u'))])
+        array_u = np.vstack([array_u, np.log10(convolve(SFR_hr, 'sdss_u'))])
+        array_g = np.vstack([array_u, np.log10(convolve(SFR_hr, 'sdss_g'))])
         array_wise_w3 = np.vstack([array_wise_w3, np.log10(convolve(SFR_hr, 'W3'))])
         array_UVIR = np.vstack([array_UVIR, np.log10(convolve(SFR_hr, 'UV+IR'))])
         array_Ha = np.vstack([array_Ha, np.log10(convolve(SFR_hr, 'Ha'))])
@@ -186,6 +189,7 @@ grp_lum = f.create_group("SFH_conv")
 grp_lum.create_dataset('SFR_FUV', data=array_i1500)
 grp_lum.create_dataset('SFR_NUV', data=array_i2800)
 grp_lum.create_dataset('SFR_u', data=array_u)
+grp_lum.create_dataset('SFR_g', data=array_g)
 grp_lum.create_dataset('SFR_W3', data=array_wise_w3)
 grp_lum.create_dataset('SFR_UVIR', data=array_UVIR)
 grp_lum.create_dataset('SFR_Ha', data=array_Ha)
