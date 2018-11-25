@@ -26,7 +26,7 @@ def read_in_files(path_files, mode='r'):
     list_alpha = []
     list_tau = []
     for ii_file in list_all_files:
-        list_alpha = np.append(list_alpha, float(ii_file.split('/')[-1].split('_')[2]))
+        list_alpha = np.append(list_alpha, float(ii_file.split('/')[-1].split('_')[-3]))
         list_tau = np.append(list_tau, float(ii_file.split('/')[-1].split('_')[-1][:-5]))
     # create dictionary
     dict_data = {}
